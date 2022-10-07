@@ -84,11 +84,31 @@ mod sortlib {
             return merged;
         }
     }
+
+    pub mod insertion {
+
+        pub fn sort(arr: &mut Vec<i32>) {
+            let length = arr.len();
+            if length <= 1 {
+                return;
+            }
+            for i in 1..length {
+                let current_value = arr[i];
+                let mut j = i;
+                while j > 0 && arr[j - 1] > current_value {
+                    arr[j] = arr[j - 1];
+                    j -= 1;
+                }
+                arr[j] = current_value;
+            }
+        }
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::sortlib::{
+        insertion,
         mergesort::merge_sort,
         quicksort::{quick_sort, swap},
     };
@@ -120,5 +140,33 @@ mod tests {
         let tab = vec![38, 13, 2, 99, 45, 17, 23, 89, 40];
         let sorted = merge_sort(&tab, 0);
         assert_eq!(vec![2, 13, 17, 23, 38, 40, 45, 89, 99], sorted);
+    }
+
+    #[test]
+    fn test_insertion_sort_empty() {
+        let mut arr: Vec<i32> = Vec::new();
+        insertion::sort(&mut arr);
+        assert!(arr.is_empty());
+    }
+
+    #[test]
+    fn test_insertion_sort_one_item() {
+        let mut arr: Vec<i32> = vec![7];
+        insertion::sort(&mut arr);
+        assert_eq!(vec![7], arr);
+    }
+
+    #[test]
+    fn test_insertion_sort_two_items() {
+        let mut arr: Vec<i32> = vec![2, 5];
+        insertion::sort(&mut arr);
+        assert_eq!(vec![2, 5], arr);
+    }
+
+    #[test]
+    fn test_insertion_sort_more_items() {
+        let mut arr: Vec<i32> = vec![38, 13, 2, 99, 45, 17, 23, 89, 40];
+        insertion::sort(&mut arr);
+        assert_eq!(vec![2, 13, 17, 23, 38, 40, 45, 89, 99], arr);
     }
 }
