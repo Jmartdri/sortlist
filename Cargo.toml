@@ -1,0 +1,7 @@
+[package]
+name = "sortlist"
+version = "0.1.0"
+edition = "2021"
+author = "jmartdri@gmail.com"
+
+[dependencies]
