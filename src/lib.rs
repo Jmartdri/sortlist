@@ -2,13 +2,13 @@
 mod sortlib {
 
     pub mod quicksort {
-        pub fn swap(tab: &mut Vec<i32>, i: usize, j: usize) {
+        pub fn swap<T: PartialOrd + Copy>(tab: &mut Vec<T>, i: usize, j: usize) {
             let tmp = tab[i];
             tab[i] = tab[j];
             tab[j] = tmp;
         }
 
-        fn partition(tab: &mut Vec<i32>, from: usize, to: usize) -> usize {
+        fn partition<T: PartialOrd + Copy>(tab: &mut Vec<T>, from: usize, to: usize) -> usize {
             let pivot = tab[to];
             let mut pointer = from;
             for i in from..to {
@@ -23,7 +23,7 @@ mod sortlib {
             return pointer;
         }
 
-        pub fn quick_sort(tab: &mut Vec<i32>, from: usize, to: usize) {
+        pub fn quick_sort<T: PartialOrd + Copy>(tab: &mut Vec<T>, from: usize, to: usize) {
             if from < to {
                 let pivot = partition(tab, from, to);
                 quick_sort(tab, from, pivot.saturating_sub(1));
@@ -33,7 +33,7 @@ mod sortlib {
     }
 
     pub mod mergesort {
-        pub fn merge_sort(tab: &Vec<i32>, mut depth: u8) -> Vec<i32> {
+        pub fn merge_sort<T: PartialOrd + Copy>(tab: &Vec<T>, mut depth: u8) -> Vec<T> {
             let size = tab.len();
             if size <= 1 {
                 return tab.to_vec();
@@ -47,7 +47,7 @@ mod sortlib {
             }
         }
 
-        fn merge<'a>(tab1: &Vec<i32>, tab2: &Vec<i32>) -> Vec<i32> {
+        fn merge<'a, T: PartialOrd + Copy>(tab1: &Vec<T>, tab2: &Vec<T>) -> Vec<T> {
             if tab1.len() == 0 {
                 return tab2.to_vec();
             }
@@ -61,7 +61,7 @@ mod sortlib {
             let sizej = tab2.len();
             let mut j = 0;
 
-            let mut merged: Vec<i32> = Vec::with_capacity(sizei + sizej);
+            let mut merged: Vec<T> = Vec::with_capacity(sizei + sizej);
 
             while i < tab1.len() && j < tab2.len() {
                 if tab1[i] < tab2[j] {
@@ -87,7 +87,7 @@ mod sortlib {
 
     pub mod insertion {
 
-        pub fn sort(arr: &mut Vec<i32>) {
+        pub fn sort<T: PartialOrd + Copy>(arr: &mut Vec<T>) {
             let length = arr.len();
             if length <= 1 {
                 return;
